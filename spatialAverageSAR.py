@@ -10,7 +10,7 @@ def spatialAverageSAR(massArray, localSARArray, targetMass, step1_libPath, step2
         targetMass (float): target mass in kg over which averaging the local SAR
         step1_libPath (string): path to the "Step 1" shared library
         step2_libPath (string): path to the "Step 2" shared library
-        additionalBackground (list): 
+        additionalBackground (list): three element list indicating the additional background voxels to be added for computation along the x,y,z direcctions
     """
 
     # Loading the libraries
