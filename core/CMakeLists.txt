@@ -12,9 +12,6 @@ option(REPORT_ENABLE "Generate the IEC/IEEE report in ${REPORT_PATH} with voxel 
 set(REPORT_PATH ${PROJECT_SOURCE_DIR}/iecReport_unsorted.txt)
 set(VOX_VOL 1) # Voxel volumes in mm^3 used for filling the data in the IEC/IEEE report
 
-#TODO Remove after readme
-set(CMAKE_BUILD_TYPE "Release")
-
 if(CMROOTS_ENABLE)
     set(CM_ROOTS ON)
     # Find packages
