@@ -33,7 +33,7 @@ endif()
 configure_file(${PROJECT_SOURCE_DIR}/include/globals.h.in ${PROJECT_SOURCE_DIR}/include/globals.h @ONLY)
 
 
-add_library(auxFuncs SHARED auxFuncs.c)
+add_library(auxFuncs STATIC auxFuncs.c)
 add_library(AvgSARStep1 SHARED avgSARStep1.c)
 add_library(AvgSARStep2 SHARED avgSARStep2.c)
 
