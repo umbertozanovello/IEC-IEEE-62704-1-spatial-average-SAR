@@ -10,7 +10,7 @@ def spatialAverageSAR(massArray, localSARArray, targetMass, step1_libPath, step2
         targetMass (float): target mass in kg over which averaging the local SAR
         step1_libPath (string): path to the "Step 1" shared library
         step2_libPath (string): path to the "Step 2" shared library
-        additionalBackground (list): three element list indicating the additional background voxels to be added for computation along the x,y,z direcctions
+        additionalBackground (list): three element list indicating the additional background voxels to be added for computation along the x,y,z directions
     """
 
     # Loading the libraries
@@ -37,14 +37,14 @@ def spatialAverageSAR(massArray, localSARArray, targetMass, step1_libPath, step2
         
         
         box = np.full(n_points, np.nan)
-        box[*original_slices] = massArray
+        box[original_slices[0], original_slices[1], original_slices[2]] = massArray
         massArray = np.copy(box)
         
-        box[*original_slices] = localSARArray
+        box[original_slices[0], original_slices[1], original_slices[2]] = localSARArray
         localSARArray = np.copy(box)
         localSARArray[np.isnan(localSARArray)] = 0
 
-        box[*original_slices] = voxStatusArray
+        box[original_slices[0], original_slices[1], original_slices[2]] = voxStatusArray
         voxStatusArray = np.copy(box)
     
     voxStatusArray[np.isnan(massArray)] = 0
@@ -67,8 +67,8 @@ def spatialAverageSAR(massArray, localSARArray, targetMass, step1_libPath, step2
     print("Step two in progress ...\n\n")
     ret = avgSARStep2(massArray_c, localSARArray_c, avgSARArray_c, voxStatusArray_c, targetMass_c, n_points_c)
 
-    avgSARArray = np.array(avgSARArray_c).reshape(n_points)[*original_slices]
-    voxStatusArray = np.array(voxStatusArray_c).reshape(n_points)[*original_slices].astype(float)
-    localSARArray = localSARArray[*original_slices]
+    avgSARArray = np.array(avgSARArray_c).reshape(n_points)[original_slices[0], original_slices[1], original_slices[2]]
+    voxStatusArray = np.array(voxStatusArray_c).reshape(n_points)[original_slices[0], original_slices[1], original_slices[2]].astype(float)
+    localSARArray = localSARArray[original_slices[0], original_slices[1], original_slices[2]]
 
     return avgSARArray, voxStatusArray
