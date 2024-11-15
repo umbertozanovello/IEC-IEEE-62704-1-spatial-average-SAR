@@ -7,7 +7,7 @@ Python (>=3.7)
 numpy
 ctypes
 
-**For C code compiation (optional)**
+**For C code compilation (optional)**
 [cmake](https://cmake.org/) (>= 3.24)
 [LAPACK](https://www.netlib.org/lapack/) (optional)
 
