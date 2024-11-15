@@ -24,7 +24,7 @@ For each UNUSED body voxel, six averaging cubes are constructed having the voxel
 ## Implementation pipeline
 The implementation uses Python for pre- and post-process the data. The core part of the algorithm is instead implemented in C and interfaced with Python through the *ctypes* library. The following figure carifies the pipeline.
 
-
+![alt text](https://github.com/umbertozanovello/IEC-IEEE-62704-1-spatial-average-SAR/blob/main/images/pipeline.jpg?raw=true)
 
 
 ## Usage
