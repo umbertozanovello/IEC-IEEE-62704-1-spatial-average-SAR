@@ -21,6 +21,12 @@ For each body voxel, an averaging cube is evenly expanded around it until the ta
 ### Step 2
 For each UNUSED body voxel, six averaging cubes are constructed having the voxel centered on one of their faces. The other five faces are evenly extended until the target mass is reached, irrespective of the volume of background included in the averaging cube. The volume of the smallest of these six cubes is computed and the SAR is averaged on the cubes whose volume is not more than 5 % larger than the smallest cube. The maximum among the computed SAR values is assigned to the UNUSED voxel.
 
+## Implementation pipeline
+The implementation uses Python for pre- and post-process the data. The core part of the algorithm is instead implemented in C and interfaced with Python through the *ctypes* library. The following figure carifies the pipeline.
+
+
+
+
 ## Usage
 The spatial-average SAR can be computed calling the Python function `spatialAverageSAR` defined in the spatialAverageSAR.py file. The function returns two numpy ndarrays, one containing the spatial-average SAR values (`avgSARArray`) and the other containing the flags assigned to the voxel (`voxStatusArray`). The flags are associated to integers according to the following definition:
 - 0 : INVALID (background)
