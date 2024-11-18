@@ -120,7 +120,7 @@ int averagingMaskCenter3D(int* ic, int* n_points, double* massArray, int delta_m
     }
 }
 
-int main(double* massArray, double* localSARArray, double* avgSARArray, Status* voxStatusArray, double targetMass, int* n_points)
+LIBRARY_API int main(double* massArray, double* localSARArray, double* avgSARArray, Status* voxStatusArray, double targetMass, int* n_points)
 {
     int tot_points = n_points[0] * n_points[1] * n_points[2];
     int idx = 0;

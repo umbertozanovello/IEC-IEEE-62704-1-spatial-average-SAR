@@ -21,6 +21,12 @@
 # define MAX_BACKGROUND_RATIO 0.1
 # define PI 3.141592653589793
 
+#ifdef _WIN32
+  #define LIBRARY_API __declspec(dllexport)
+#else
+  #define LIBRARY_API
+#endif
+
 typedef enum {
   INVALID,
   UNUSED,
