@@ -1,0 +1,14 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+authors:
+- family-names: "Zanovello"
+  given-names: "Umberto"
+  orcid: "https://orcid.org/0000-0001-6415-9967"
+- family-names: "De Zanche"
+  given-names: "Nicola"
+  orcid: "https://orcid.org/0000-0003-4424-8430"
+title: "???"
+version: 0.1.0
+doi: ???
+date-released: yyyy-mm-dd
+url: "https://github.com/umbertozanovello/IEC-IEEE-62704-1-spatial-average-SAR"
