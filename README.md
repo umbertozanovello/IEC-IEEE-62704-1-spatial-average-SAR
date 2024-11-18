@@ -74,7 +74,7 @@ The standard provides an *stl* model of the “SAR Star” together with local S
 - voxel flags
 - averaging cube expansion directions (relevant only to Step 2)
 
-These data are collected in text files and can be downloaded [here](https://www.iec.ch/dyn/www/f?p=103:227:0::::FSP_ORG_ID,FSP_LANG_ID:1303,25)
+These data are collected in text files and can be downloaded [here](https://assets.iec.ch/public/tc106/62704-1_supplemental_files.zip?2024111817)
 
 To improve the usability of the test data, binary *mat* files are provided as assets with the release. Two files are provided where the “SAR Star” is discretized on a uniform grid and reference results are given for 1 g and 10 g averaging masses. Each file contains the following attributes:
 - *x_offset*, *y_offset*, *z_offset*: *x*, *y*, and *z* coordinates;
@@ -92,6 +92,9 @@ To improve the usability of the test data, binary *mat* files are provided as as
 - *orientation*: orientation of the averaging cubes with respect to the reference location:
     - face-centred cube (Step 2): -x=1, +x=2, -y=3, +y=4, -z=5, +z=6
     - volume centred cube (Step 1): =7
+
+Finally, the IEC/IEEE 62704-1 standard reports a code (see *sarstar_evaluation_script_V1.1.m* provided along with the [text reference data](https://assets.iec.ch/public/tc106/62704-1_supplemental_files.zip?2024111817)) for generating a log file comparing the reference data against those obtained with the developed algorithm. Log files relevant to the provided algorithm are uploaded [here](https://github.com/umbertozanovello/IEC-IEEE-62704-1-spatial-average-SAR/tree/main/others)
+These results are obtained using the companion matrix algorithm to compute the polynomial roots (see above).
 
 ## Acknowledgement
 This script has been developed in the context of the 21NRM05 STASIS project. The project (21NRM05 STASIS) has received funding from the European Partnership on Metrology, co-financed from the European Union's Horizon Europe Research and Innovation Programme and by the Participating States.
