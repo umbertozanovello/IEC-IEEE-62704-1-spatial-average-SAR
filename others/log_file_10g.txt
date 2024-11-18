@@ -1,0 +1,30 @@
+IEC/IEEE 62704-1 SAR Star Evaluation Script
+Version 1.1
+July 31st, 2016
+Loading "iecReport_sorted_10g.txt" ...
+Loading "sar_star_uniform_ref_10g_2016_03_18_V3.txt" ...
+1516120 lines in reference, 1498184 in test result
+1498184 lines in processed reference
+Status test (1498184 lines in table relevant):
+0 Deviations >0.000000 percent
+*** PASSED ***
+
+Mass test (678280 lines in table relevant):
+Maximum deviation at (i/j/k) 136 137 136:
+    Reference: 10.000002 g  Test: 10 g
+    Deviation is -0.000020%, Tolerance is +/-0.000200%.
+0 Deviations >0.000002 percent
+*** PASSED ***
+
+Volume test (678280 lines in table relevant):
+Maximum deviation at (i/j/k) 77 118 128:
+    Reference: 10060.2043 mm^3  Test: 10060.21 mm^3
+    Deviation is 0.000057%, Tolerance is +/-0.000200%.
+0 Deviations >0.000002 percent
+*** PASSED ***
+
+Spatial Average SAR test (16792 lines in table relevant):
+0 Deviations >0.200000 percent
+*** PASSED ***
+
+*** ALL TESTS WERE PASSED. ***
