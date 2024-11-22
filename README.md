@@ -63,7 +63,7 @@ According to the value assigned to the `CMROOTS_ENABLE` option in the "CMakeList
 If the cmake option `REPORT_ENABLE` is set to `ON`, a report is generated with the name and folder specified in the `REPORT_PATH` variable. To be compliant with the report format of the IEC/IEEE 62704-1 standard, the generated report should be reorganized with the Python script "sortReport.py" available in the "tools" folder.
 
 ## Testing
-The IEC/IEEE 62704-1 standard procides the so-called “SAR Star” for testing different algorithm implementations. The “SAR Star” is a bi-compartmental solid designed to involve all the averaging volume types for all directions of space during the spatial-averaging algorithm execution.
+The IEC/IEEE 62704-1 standard provides several [supporting documents](https://www.iec.ch/dyn/www/f?p=103:227:0::::FSP_ORG_ID,FSP_LANG_ID:1303,25), including the so-called “SAR Star” for testing different algorithm implementations. The SAR Star is a bi-compartmental solid designed to involve all the averaging volume types for all directions of space during the spatial-averaging algorithm execution.
 
 ![alt text](https://github.com/umbertozanovello/IEC-IEEE-62704-1-spatial-average-SAR/blob/main/images/SARStarExploded.png?raw=true)
 
@@ -74,17 +74,27 @@ The standard provides an *stl* model of the “SAR Star” together with local S
 - voxel flags
 - averaging cube expansion directions (relevant only to Step 2)
 
-These data are collected in text files and can be downloaded [here](https://assets.iec.ch/public/tc106/62704-1_supplemental_files.zip?2024111817)
+These reference data are collected in text files contained in the [supplemental files .zip archive](https://assets.iec.ch/public/tc106/62704-1_supplemental_files.zip?2024111817). Four versions are provided:
+- uniform grid, 1g averaging mass
+- uniform grid, 10g averaging mass
+- non-uniform grid ("graded"), 1g average
+- non-uniform grid ("graded"), 10g average
+The current version of the averaging algorithm works only with uniformly-sampled data. Non-uniform data can be accommodated by first re-sampling (interpolating) to a uniform grid.
 
-To improve the usability of the test data, binary *mat* files are provided as assets with the release. Two files are provided where the “SAR Star” is discretized on a uniform grid and reference results are given for 1 g and 10 g averaging masses. Each file contains the following attributes:
+To improve the usability of the test data, the text files were read using an [octave](https://octave.org/)/matlab [script](TBD) that performs the following operations:
+- removes occasional duplicate entries for the same point in space
+- creates the SAR Star geometry based on geometrical primitives (as opposed to using the STL surface data which is computationally challeging and error-prone) and assigns materials 
+- introduces offsets to align the SAR star data exactly with the Cartesian axes
+
+Two binary *mat* files are provided as assets with the release, where the “SAR Star” is discretized on a uniform grid and results are given for 1 g and 10 g averaging masses. Each file contains the following attributes (arrays):
 - *x_offset*, *y_offset*, *z_offset*: *x*, *y*, and *z* coordinates;
 - *local_SAR*: local SAR values in W/kg to be averaged;
 - *star*: material code of each voxel from 0 (background) to 2;
-- *densities*: Mass density in kg/m^3 of the materials. First element is background, second element is material 1 and last element is material 2;
+- *densities*: Mass density in kg/m<sup>3</sup> of the three materials. First element is background, second element is material 1 and last element is material 2;
 - *average_SAR*: spatial-average SAR values;
-- *mass*: masses of the averaging cubes in g;
-- *volume*: volumes of the averaging cubes in mm^3;
-- *status*: flags associated to the voxels according to the following definition:
+- *mass*: mass of the averaging cube associated with each voxel (in g);
+- *volume*: volumes of the averaging cubes in mm<sup>3</sup>;
+- *status*: flag associated with each voxel according to the following definition:
     - 0 : INVALID (background)
     - 1 : UNUSED
     - 2 : USED
@@ -93,7 +103,7 @@ To improve the usability of the test data, binary *mat* files are provided as as
     - face-centred cube (Step 2): -x=1, +x=2, -y=3, +y=4, -z=5, +z=6
     - volume centred cube (Step 1): =7
 
-Finally, the IEC/IEEE 62704-1 standard reports a code (see *sarstar_evaluation_script_V1.1.m* provided along with the [text reference data](https://assets.iec.ch/public/tc106/62704-1_supplemental_files.zip?2024111817)) for generating a log file comparing the reference data against those obtained with the developed algorithm. Log files relevant to the provided algorithm are uploaded [here](https://github.com/umbertozanovello/IEC-IEEE-62704-1-spatial-average-SAR/tree/main/others)
+Finally, the IEC/IEEE 62704-1 standard reports a code (see *sarstar_evaluation_script_V1.1.m* provided along with the [text reference data](https://assets.iec.ch/public/tc106/62704-1_supplemental_files.zip?2024111817)) for generating a log file comparing the reference data against those obtained with the algorithm developed here. The relevant log files are uploaded [here](https://github.com/umbertozanovello/IEC-IEEE-62704-1-spatial-average-SAR/tree/main/others).
 These results are obtained using the companion matrix algorithm to compute the polynomial roots (see above).
 
 ## Acknowledgement
