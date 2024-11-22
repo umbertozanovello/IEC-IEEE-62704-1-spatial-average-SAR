@@ -81,7 +81,7 @@ These reference data are collected in text files contained in the [supplemental 
 - non-uniform grid ("graded"), 10g average
 The current version of the averaging algorithm works only with uniformly-sampled data. Non-uniform data can be accommodated by first re-sampling (interpolating) to a uniform grid.
 
-To improve the usability of the test data, the text files were read using an [octave](https://octave.org/)/matlab [script](tools/process_SAR_star_data.m) that performs the following operations:
+To improve the usability of the test data, the text files were read using an [octave](https://octave.org/)/matlab [script](tools/prepare_SAR_star_data.m) that performs the following operations:
 - removes occasional duplicate entries for the same point in space
 - creates the SAR Star geometry based on geometrical primitives (as opposed to using the STL surface data which is computationally challeging and error-prone) and assigns materials 
 - introduces offsets to align the SAR star data exactly with the Cartesian axes
