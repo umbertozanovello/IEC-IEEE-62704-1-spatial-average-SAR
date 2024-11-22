@@ -1,5 +1,4 @@
-% prepare IEC-IEEE_62704-1 SAR star data for testing spatialAverageSAR.py
-% averaging algorithm and display some figures
+% prepare IEC-IEEE_62704-1 SAR star data for testing spatialAverageSAR.py averaging algorithm and display some figures
 % N De Zanche 2024-11-22
 
 % do if running in Octave
@@ -13,7 +12,7 @@ load_type = 0; % 0 = text file; 1 = HDF5 file; 2 = MAT file
 remove_duplicates = 1;    %remove duplicate average SAR entries for same position (seen at boundaries)
 save_data = 0;      % save the original table in .mat format to speed up reading data
 save_nrrd = 0;      % for visualization; NRRD is easier to import into 3D Slicer
-uniform_grid=1;   % required to display correctly; set according to the file type chosen below
+uniform_grid=1;   % required to display correctly; set manually according to the file type chosen below
 
 datadir = 'D:\Library\Reference\Standards\IEC\SAR_Star_Reference_Results_160318\';
 % NB: spatialAverageSAR.py works only with data on a uniform grid and does not accept non-uniform (graded) data
@@ -185,7 +184,7 @@ if uniform_grid
   disp('displaying on uniform grid...')
 
   figure(1)
-  fig_name(['SAR MIPs: ' filename])
+  set(gcf,'Name',['SAR MIPs: ' filename])
   subplot(1,3,1)
   imagesc([y(1) y(end)], [z(1) z(end)], squeeze(max(local_SAR,[],1)));
   %uimagesc(y, z, squeeze(max(local_SAR,[],1))');
@@ -203,7 +202,7 @@ if uniform_grid
   title('XY plane');
 
   figure(2)
-  fig_name(['SAR projections: ' filename])
+  set(gcf,'Name',['SAR projections: ' filename])
   subplot(1,3,1)
   imagesc([y(1) y(end)], [z(1) z(end)], squeeze(sum(local_SAR,1)));
   %uimagesc(y, z, squeeze(sum(local_SAR,1))');
@@ -221,7 +220,7 @@ if uniform_grid
   title('XY plane');
 
   figure(3)
-  fig_name(['SAR slices: ' filename])
+  set(gcf,'Name',['SAR slices: ' filename])
 %  colormap gray
   subplot(1,3,1)
   imagesc([y(1) y(end)], [z(1) z(end)], squeeze(local_SAR(ceil(array_size(1)/2),:,:)));
@@ -237,7 +236,7 @@ if uniform_grid
   title('XY plane');
 
   figure(4)
-  fig_name(['star slices: ' filename])
+  set(gcf,'Name',['star slices: ' filename])
   colormap gray
   subplot(2,3,1)
   imagesc([y_offset(1) y_offset(end)], [z_offset(1) z_offset(end)], squeeze(star(ceil(array_size(1)/2),:,:)));
@@ -264,26 +263,23 @@ if uniform_grid
   axis equal
 
   figure(5)
-  fig_name(['star and SAR overlay: ' filename])
+  set(gcf,'Name',['star and SAR overlay: ' filename])
   colormap gray
   subplot(1,3,1)
-%  imagesc([y(1) y(end)], [z(1) z(end)], squeeze(comparison(ceil(array_size(1)/2),:,:)));
   imshowpair(squeeze(star(ceil(array_size(1)/2),:,:)),squeeze(local_SAR(ceil(array_size(1)/2),:,:)),'blend');
   axis equal
   title('YZ plane');
   subplot(1,3,2)
-%  imagesc([x(1) x(end)], [z(1) z(end)], squeeze(comparison(:,ceil(array_size(2)/2),:)));
   imshowpair(squeeze(star(:,ceil(array_size(1)/2),:)),squeeze(local_SAR(:,ceil(array_size(1)/2),:)),'blend');
   axis equal
   title('XZ plane');
   subplot(1,3,3)
-%  imagesc([x(1) x(end)], [y(1) y(end)], squeeze(comparison(:,:,ceil(array_size(3)/2))));
   imshowpair(squeeze(star(:,:,ceil(array_size(1)/2))),squeeze(local_SAR(:,:,ceil(array_size(1)/2))),'blend');
   axis equal
   title('XY plane');
 
   figure(6)
-  fig_name(['SAR comparison: ' filename])
+  set(gcf,'Name',['SAR comparison: ' filename])
   colormap gray
   subplot(2,3,1)
   imagesc([y_offset(1) y_offset(end)], [z_offset(1) z_offset(end)], squeeze(local_SAR(ceil(array_size(1)/2),:,:)));
@@ -313,6 +309,7 @@ if uniform_grid
   elseif
 
   disp('displaying on non-uniform grid...')
+  %NB: the middle of the star is not exactly in the middle of the array
   % find indices of slices through the axes
   x_center = find(x == 0);
   y_center = find(y == 0);
@@ -320,50 +317,43 @@ if uniform_grid
 
 % pcolor without "shading flat" makes a lot of black lines
   figure(1)
-  fig_name(['SAR MIPs: ' filename])
+  set(gcf,'Name',['SAR MIPs: ' filename])
   subplot(1,3,1)
-  %uimagesc(y, z, squeeze(max(local_SAR,[],1))');
   pcolor(y, z, squeeze(max(local_SAR,[],1))');
   shading flat
   axis equal
   title('YZ plane');
   subplot(1,3,2)
-  %uimagesc(x, z, squeeze(max(local_SAR,[],2))');
   pcolor(x, z, squeeze(max(local_SAR,[],2))');
   shading flat
   axis equal
   title('XZ plane');
   subplot(1,3,3)
-  %uimagesc(x, y, squeeze(max(local_SAR,[],3))');
   pcolor(x, y, squeeze(max(local_SAR,[],3))');
   shading flat
   axis equal
   title('XY plane');
 
   figure(2)
-  fig_name(['SAR projections: ' filename])
+  set(gcf,'Name',['SAR projections: ' filename])
   subplot(1,3,1)
-  %uimagesc(y, z, squeeze(sum(local_SAR,1))');
   pcolor(y, z, squeeze(sum(local_SAR,1))');
   shading flat
   axis equal
   title('YZ plane');
   subplot(1,3,2)
-  %uimagesc(x, z, squeeze(sum(local_SAR,2))');
   pcolor(x, z, squeeze(sum(local_SAR,2))');
   shading flat
   axis equal
   title('XZ plane');
   subplot(1,3,3)
-  %uimagesc(x, y, squeeze(sum(local_SAR,3))');
   pcolor(x, y, squeeze(sum(local_SAR,3))');
   shading flat
   axis equal
   title('XY plane');
 
-  %NB the middle of the star is not exactly in the middle of the array
   figure(3)
-  fig_name(['SAR slices: ' filename])
+  set(gcf,'Name',['SAR slices: ' filename])
   subplot(1,3,1)
   pcolor(y, z, squeeze(local_SAR(x_center,:,:))');
   shading flat
@@ -381,7 +371,7 @@ if uniform_grid
   title('XY plane');
 
   figure(4)
-  fig_name(['star slices: ' filename])
+  set(gcf,'Name',['star slices: ' filename])
   colormap gray
   subplot(2,3,1)
   pcolor(y, z, squeeze(star(x_center,:,:))');
@@ -414,7 +404,7 @@ if uniform_grid
   axis equal
 
   figure(6)
-  fig_name(['SAR comparison: ' filename])
+  set(gcf,'Name',['SAR comparison: ' filename])
   colormap gray
   subplot(2,3,1)
   pcolor(y, z, squeeze(local_SAR(x_center,:,:))');
@@ -450,5 +440,9 @@ endif
 
 
 %% saving all offset (centred) data arrays as input for spatialAverageSAR.py
-save('-v7', [datadir filename '.mat'], 'x_offset', 'y_offset', 'z_offset', 'local_SAR', 'average_SAR', 'star', 'status', 'densities', 'mass', 'volume', 'orientation');
+if exist([datadir filename '_arrays.mat'],'file') == 2
+  error([datadir filename '_arrays.mat already exists!']); % prevent overwriting
+else
+  save('-v7', [datadir filename '_arrays.mat'], 'x_offset', 'y_offset', 'z_offset', 'local_SAR', 'average_SAR', 'star', 'status', 'densities', 'mass', 'volume', 'orientation');
+endif
 
