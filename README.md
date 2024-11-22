@@ -81,25 +81,25 @@ These reference data are collected in text files contained in the [supplemental 
 - non-uniform grid ("graded"), 10g average
 The current version of the averaging algorithm works only with uniformly-sampled data. Non-uniform data can be accommodated by first re-sampling (interpolating) to a uniform grid.
 
-To improve the usability of the test data, the text files were read using an [octave](https://octave.org/)/matlab [script](TBD) that performs the following operations:
+To improve the usability of the test data, the text files were read using an [octave](https://octave.org/)/matlab [script](tools/process_SAR_star_data.m) that performs the following operations:
 - removes occasional duplicate entries for the same point in space
 - creates the SAR Star geometry based on geometrical primitives (as opposed to using the STL surface data which is computationally challeging and error-prone) and assigns materials 
 - introduces offsets to align the SAR star data exactly with the Cartesian axes
 
 Two binary *mat* files are provided as assets with the release, where the “SAR Star” is discretized on a uniform grid and results are given for 1 g and 10 g averaging masses. Each file contains the following attributes (arrays):
-- *x_offset*, *y_offset*, *z_offset*: *x*, *y*, and *z* coordinates;
-- *local_SAR*: local SAR values in W/kg to be averaged;
-- *star*: material code of each voxel from 0 (background) to 2;
-- *densities*: Mass density in kg/m<sup>3</sup> of the three materials. First element is background, second element is material 1 and last element is material 2;
-- *average_SAR*: spatial-average SAR values;
-- *mass*: mass of the averaging cube associated with each voxel (in g);
-- *volume*: volumes of the averaging cubes in mm<sup>3</sup>;
-- *status*: flag associated with each voxel according to the following definition:
+- *x_offset*, *y_offset*, *z_offset*: *x*, *y*, and *z* coordinates (vectors);
+- *local_SAR*: local SAR values in W/kg to be averaged (3D array);
+- *star*: material code of each voxel from 0 (background) to 2 (3D array);
+- *densities*: Mass density in kg/m<sup>3</sup> of the three materials (vector). First element is background, second element is material 1 and last element is material 2;
+- *average_SAR*: spatial-average SAR values (3D array);
+- *mass*: mass of the averaging cube associated with each voxel in g (3D array);
+- *volume*: volumes of the averaging cubes in mm<sup>3</sup> (3D array);
+- *status*: (3D array) flag associated with each voxel according to the following definition:
     - 0 : INVALID (background)
     - 1 : UNUSED
     - 2 : USED
     - 3 : VALID
-- *orientation*: orientation of the averaging cubes with respect to the reference location:
+- *orientation*: orientation of the averaging cubes with respect to the reference location (3D array):
     - face-centred cube (Step 2): -x=1, +x=2, -y=3, +y=4, -z=5, +z=6
     - volume centred cube (Step 1): =7
 
