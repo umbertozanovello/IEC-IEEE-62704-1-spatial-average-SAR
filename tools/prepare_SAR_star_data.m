@@ -1,4 +1,5 @@
-% process IEC-IEEE_62704-1 SAR star data
+% prepare IEC-IEEE_62704-1 SAR star data for testing spatialAverageSAR.py
+% averaging algorithm and display some figures
 % N De Zanche 2024-11-22
 
 % do if running in Octave
@@ -15,6 +16,7 @@ save_nrrd = 0;      % for visualization; NRRD is easier to import into 3D Slicer
 uniform_grid=1;   % required to display correctly; set according to the file type chosen below
 
 datadir = 'D:\Library\Reference\Standards\IEC\SAR_Star_Reference_Results_160318\';
+% NB: spatialAverageSAR.py works only with data on a uniform grid and does not accept non-uniform (graded) data
 %filename = 'sar_star_graded_ref_10g_2016_03_18.txt'
 %filename = 'sar_star_graded_ref_01g_2016_03_18.txt';
 %filename = 'sar_star_uniform_ref_01g_2016_03_18_V3.txt';
@@ -448,5 +450,5 @@ endif
 
 
 %% saving all offset (centred) data arrays as input for spatialAverageSAR.py
-save('-v7', [datadir filename '_centred_test.mat'], 'x_offset', 'y_offset', 'z_offset', 'local_SAR', 'average_SAR', 'star', 'status', 'densities', 'mass', 'volume', 'orientation')
+save('-v7', [datadir filename '.mat'], 'x_offset', 'y_offset', 'z_offset', 'local_SAR', 'average_SAR', 'star', 'status', 'densities', 'mass', 'volume', 'orientation');
 
