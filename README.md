@@ -6,10 +6,10 @@ Python-C implementation of the spatial-average SAR alogrithm compliant to the re
 Python (>=3.7)
 numpy
 ctypes
+[LAPACK](https://www.netlib.org/lapack/) (optional)
 
 **For C code compilation (optional)**
 [cmake](https://cmake.org/) (>= 3.24)
-[LAPACK](https://www.netlib.org/lapack/) (optional)
 
 ## The IEC/IEEE 62704-1 spatial-average SAR procedure
 The patial-average SAR procedure described in the standard is based on two steps. The procedure is reported in Figure 2 of the standard and briefly described below. 
@@ -49,7 +49,12 @@ The `spatialAverageSAR` Python function takes the following arguments:
 - `step2_libPath` (string): path to the "Step 2" shared library
 - `additionalBackground` (list): three element list indicating the additional background voxels to be added for computation along the x,y,z directions
 
-The C shared libraries can be either compiled from the source C code (see section below) or downloaded from the release assets. precompiled libraries are indeed provided both for Linux (.so extension) and Windows (.dll extension) OS. The algorithm requires to repeatedly compute the roots of a third degree polynomial. In the provided C code this is achieved either with a faster but approximated algorithm or by a slower but more accurate algorithm based on the computation of the eigenvalues of the companion matrix. Libraries named as "libAvgSARStep*_cmroots.*" compute the polynomial roots with the latter strategy.
+The C shared libraries can be either compiled from the source C code (see section below) or downloaded from the release assets. Precompiled libraries are indeed provided both for Linux (.so extension) and Windows (.dll extension) OS. The algorithm requires to repeatedly compute the roots of a third degree polynomial. In the provided C code this is achieved either with a faster but approximated algorithm or by a slower but more accurate algorithm based on the computation of the eigenvalues of the companion matrix. Libraries named as "libAvgSARStep*_cmroots.*" compute the polynomial roots with the latter strategy. These libraries rely on the Lapack library which has to be installed. 
+In Linux OS, this can be simply achieved by running in a terminal:
+```
+sudo apt install liblapack-dev
+```
+Personal experience suggests that in Windows OS, the easiest way to install Lapack is with [vcpkg](https://vcpkg.io/en/) 
 
 ### C libraries compilation
 Whereas it is possible to use the precompiled libraries provieded along with the current release, it is also possible to compile them from the source code. This has the advantage that the libraries are optimised for the system on which they are compiled. Compilation can be easily performed with [cmake](https://cmake.org/) and the provided "CMakeLists.txt" file provided. Linux user can run the following commands in a terminal opened in the "CMakeLists.txt" directory:
@@ -79,14 +84,15 @@ These reference data are collected in text files contained in the [supplemental 
 - uniform grid, 10g averaging mass
 - non-uniform grid ("graded"), 1g average
 - non-uniform grid ("graded"), 10g average
+
 The current version of the averaging algorithm works only with uniformly-sampled data. Non-uniform data can be accommodated by first re-sampling (interpolating) to a uniform grid.
 
-To improve the usability of the test data, the text files were read using an [octave](https://octave.org/)/matlab [script](tools/prepare_SAR_star_data.m) that performs the following operations:
+To improve the usability of the test data, the text files can be read using an [octave](https://octave.org/)/matlab [script](tools/prepare_SAR_star_data.m) that performs the following operations:
 - removes occasional duplicate entries for the same point in space
 - creates the SAR Star geometry based on geometrical primitives (as opposed to using the STL surface data which is computationally challeging and error-prone) and assigns materials 
 - introduces offsets to align the SAR star data exactly with the Cartesian axes
 
-Two binary *mat* files are provided as assets with the release, where the “SAR Star” is discretized on a uniform grid and results are given for 1 g and 10 g averaging masses. Each file contains the following attributes (arrays):
+Binary *mat* files are generated, where the “SAR Star” is discretized on a uniform grid. The file contains the following attributes (arrays):
 - *x_offset*, *y_offset*, *z_offset*: *x*, *y*, and *z* coordinates (vectors);
 - *local_SAR*: local SAR values in W/kg to be averaged (3D array);
 - *star*: material code of each voxel from 0 (background) to 2 (3D array);
