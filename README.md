@@ -54,7 +54,7 @@ In Linux OS, this can be simply achieved by running in a terminal:
 ```
 sudo apt install liblapack-dev
 ```
-Personal experience suggests that in Windows OS, the easiest way to install Lapack is with [vcpkg](https://vcpkg.io/en/) 
+Personal experience suggests that the easiest way to install Lapack in Windows OS  is through [vcpkg](https://vcpkg.io/en/) 
 
 ### C libraries compilation
 Whereas it is possible to use the precompiled libraries provieded along with the current release, it is also possible to compile them from the source code. This has the advantage that the libraries are optimised for the system on which they are compiled. Compilation can be easily performed with [cmake](https://cmake.org/) and the provided "CMakeLists.txt" file provided. Linux user can run the following commands in a terminal opened in the "CMakeLists.txt" directory:
