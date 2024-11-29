@@ -6,10 +6,10 @@ Python-C implementation of the spatial-average SAR alogrithm compliant to the re
 Python (>=3.7)
 numpy
 ctypes
-[LAPACK](https://www.netlib.org/lapack/) (optional)
 
 **For C code compilation (optional)**
 [cmake](https://cmake.org/) (>= 3.24)
+[LAPACK](https://www.netlib.org/lapack/) (optional)
 
 ## The IEC/IEEE 62704-1 spatial-average SAR procedure
 The patial-average SAR procedure described in the standard is based on two steps. The procedure is reported in Figure 2 of the standard and briefly described below. 
@@ -33,6 +33,8 @@ The implementation uses Python for pre- and post-process the data. The core part
 ![alt text](https://github.com/umbertozanovello/IEC-IEEE-62704-1-spatial-average-SAR/blob/main/images/pipeline.jpg?raw=true)
 
 ### Usage
+The C shared libraries can be either compiled from the source C code (see section below) or installed from the .deb or .msi packages provided as release [assets](https://github.com/umbertozanovello/IEC-IEEE-62704-1-spatial-average-SAR/releases/tag/v0.1). Precompiled libraries are indeed provided both for Linux and Windows OS. The algorithm requires to repeatedly compute the roots of a third degree polynomial. In the provided C code this is achieved either with a faster but approximated algorithm or by a slower but more accurate algorithm based on the computation of the eigenvalues of the companion matrix. Packages named as "*_cmroots.*" compute the polynomial roots with the latter strategy. These libraries rely on the Lapack library which is installed together with the provided libraries.
+
 The spatial-average SAR can be computed calling the Python function `spatialAverageSAR` defined in the spatialAverageSAR.py file. The function returns two numpy ndarrays, one containing the spatial-average SAR values (`avgSARArray`) and the other containing the flags assigned to the voxel (`voxStatusArray`). The flags are associated to integers according to the following definition:
 - 0 : INVALID (background)
 - 1 : UNUSED
@@ -45,19 +47,12 @@ The `spatialAverageSAR` Python function takes the following arguments:
 - `massArray` (numpy ndarray): *nx* x *ny* x *nz* points array containing the voxel masses in kg. The background is identified by `nan` values
 - `localSARArray` (numpy ndarray): *nx* x *ny* x *nz* points array containing the local SAR distribution in W/kg
 - `targetMass` (float): target mass in kg over which averaging the local SAR
-- `step1_libPath` (string): path to the "Step 1" shared library
-- `step2_libPath` (string): path to the "Step 2" shared library
+- `step1_libPath` (string): path to the "Step 1" shared library. If the user uses the provided installer, in Windows OS the path can be selected during the installation step (default: C:\Program Files\SpatialAverageSAR v.v\bin\AvgSARStep1.dll). In Linux OS the libraries are installed by default under the /usr/local folder. Since this folder is part of the system path, it is sufficient to set  `step1_libPath` to "libAvgSARStep1.so"
+- `step2_libPath` (string): path to the "Step 2" shared library. If the user uses the provided installer, in Windows OS the path can be selected during the installation step (default: C:\Program Files\SpatialAverageSAR v.v\bin\AvgSARStep2.dll). In Linux OS the libraries are installed by default under the /usr/local folder. Since this folder is part of the system path, it is sufficient to set  `step1_libPath` to "libAvgSARStep2.so"
 - `additionalBackground` (list): three element list indicating the additional background voxels to be added for computation along the x,y,z directions
 
-The C shared libraries can be either compiled from the source C code (see section below) or downloaded from the release assets. Precompiled libraries are indeed provided both for Linux (.so extension) and Windows (.dll extension) OS. The algorithm requires to repeatedly compute the roots of a third degree polynomial. In the provided C code this is achieved either with a faster but approximated algorithm or by a slower but more accurate algorithm based on the computation of the eigenvalues of the companion matrix. Libraries named as "libAvgSARStep*_cmroots.*" compute the polynomial roots with the latter strategy. These libraries rely on the Lapack library which has to be installed. 
-In Linux OS, this can be simply achieved by running in a terminal:
-```
-sudo apt install liblapack-dev
-```
-Personal experience suggests that the easiest way to install Lapack in Windows OS  is through [vcpkg](https://vcpkg.io/en/) 
-
 ### C libraries compilation
-Whereas it is possible to use the precompiled libraries provieded along with the current release, it is also possible to compile them from the source code. This has the advantage that the libraries are optimised for the system on which they are compiled. Compilation can be easily performed with [cmake](https://cmake.org/) and the provided "CMakeLists.txt" file provided. Linux user can run the following commands in a terminal opened in the "CMakeLists.txt" directory:
+Whereas it is possible to use the precompiled libraries installed with the packages provided with the current release, it is also possible to compile them from the source code. This has the advantage that the libraries are optimised for the system on which they are compiled. Compilation can be "easily" performed with [cmake](https://cmake.org/) and the provided "CMakeLists.txt" file provided. Linux user can run the following commands in a terminal opened in the "CMakeLists.txt" directory:
 ```
 mkdir build
 cd build
